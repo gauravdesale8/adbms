@@ -1,0 +1,177 @@
+#########
+##Prac1##
+#########
+
+#exercise1
+x=read.table("Table0.txt")
+x
+View(x)
+colnames(x)=c("name","age","height","weight","sex")
+rownames(x)=x$name
+x
+x$name=NULL
+x
+#also x=x[,-1] for removing the column
+
+#ex2
+y=read.table("Table1.txt", header = TRUE)
+y
+View(y)
+nrow(y)
+ncol(y)
+#or
+dim(y)
+z=read.table("Table1.txt",header=TRUE,row.names = "Name",stringsAsFactors = FALSE)
+z
+
+#ex3
+y=read.table("Table2.txt",header = TRUE,row.names="Name",skip =2,stringsAsFactors = FALSE )
+y
+
+#ex4
+a=read.table("Table3.txt",header = TRUE,row.names="Name",skip =2,stringsAsFactors = FALSE,na.strings = c("--","*","**","NA"))
+a
+is.na(a$Age)
+sum(is.na(a))
+
+#ex5
+b=read.csv("states1.csv")
+b
+View(b)
+rownames(b)=b$X
+b
+b$X=NULL
+b
+View(b)
+#or
+b=read.csv("states1.csv",header = TRUE,row.names = 1)
+b
+
+#prac1partb
+#ex1
+v=c("weather","100")
+d=data.frame(a=c(10,10),b=v)
+d
+dump(c("v","d"),file="Dumpdata.R")
+rm(v)
+rm(d)
+source("Dumpdata.R")
+v
+d
+#ex2
+Rollno=c("1","2","3")
+Name=c("a","b","c")
+Total=c("10","20","30")
+students=data.frame(Rollno,Name,Total)
+students
+dput(students,file="dputdata.R")
+rm(students)
+dget("dputdata.R")
+
+#ex3 use con read from text file
+con=file("Employee.txt")
+open(con,"r")
+data=read.csv(con)
+data
+close(con)
+#resd from url
+con=url("http://www.stats.ox.ac.uk/pub/datasets/csb/ch11b.dat")
+x=readLines(con,50)
+x
+#read from gz(zip) file
+con=gzfile("Sample1.gz")
+x=readLines(con,5)
+x
+
+#prac2A
+mtcars=read.csv("mtcars.csv")
+View(mtcars)
+#subset mtcars
+x=subset(mtcars$mpg,mtcars$mpg>15)
+x
+#subset mtcars where mpg>21
+x1=subset(mtcars,mpg>=21)
+x1
+#subset mtcars where cyl<6ansd gear=4
+x2=subset(mtcars,cyl<6&gear==4)
+x2
+#subset mtcars greater and equal to 21 also select mpg throuh hp
+x3=subset(mtcars,mpg>=21,select=mpg:hp)
+x3
+View(airquality)
+df=airquality
+y=subset(df,Ozone>28|Temp>70)
+y
+head(y,5)
+head(subset(df,Ozone>28&Temp>70,select = c(Ozone,Temp)),5)
+y1=subset(df,!is.na(Ozone))
+y1
+is.na(y1$Ozone)
+y2=subset(df,Ozone>100,select=c(1,4,5,6))
+y2
+
+
+ROll_no=c(601,602,603,604,605)
+Name=c("andrew","alex","amy","bob","chris")
+Marks=c(459,305,399,489,255)
+List1=list(Roll_no=ROll_no,Name,Marks)
+List1
+
+#onlynames
+List1[[2]]
+#third elemnet of marks
+List1[[3]][3]
+#only roll no using dollar
+List1$Roll_no
+#only roll and marks
+List1[-2]
+
+#matrix
+m1=matrix(1:15,3,5,byrow = TRUE)
+m1
+m1[2,]
+m1[3,4]
+m1[,5]
+m1[,c(1,3)]
+m1[c(1,3),]
+
+#PRAC2B
+dates=c("2010-05-01","2004-03-01")
+class(dates)
+
+#ex1 convert vector to date object
+ex1dts=as.Date(dates)
+ex1dts
+class(ex1dts)
+
+#ex2use as.Date to covert to date object inside the variable
+ex2dts=as.Date("09-13-95",format="%m-%d-%y")
+ex2dts
+class(ex2dts)
+
+#ex3 convert the vector to date object within the variable ex3dts
+dates=c("09-13-95","09-13-95","09-13-95","09-13-95")
+ex3dts=as.Date(dates,format="%m-%d-%y")
+class(ex3dts)
+#ex4 mean of ex3dts
+m=mean(ex3dts)
+m
+#ex5 max of ex3dts
+maxdate=max(ex3dts)
+maxdate
+#ex6 diff of two dates
+start_date=as.Date("28/Feb/2020",format="%d/%b/%Y")
+end_date=as.Date("3/Mar/2021",format="%d/%b/%Y")
+end_date-start_date
+
+#ex7print todays date 
+today=format(Sys.Date(),"%B %d %y")
+today
+
+#ex8 obtain current sys time and the difference betwnn time in gmt zone for the same date
+stime=Sys.time()
+stime
+GMT_time=as.POSIXct("2021-01-09 14:54:03",tz="gmt")
+GMT_time
+stime-GMT_time
+
